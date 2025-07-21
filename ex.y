@@ -20,7 +20,7 @@
 %token MAS MENOS POR DIV IGUAL PTOCOMA PAA PAC
 %token LLAVE_ABRE LLAVE_CIERRE
 %token LIGUAL LDIFERENTE MENOR MAYOR MENORIGUAL MAYORIGUAL
-%token AND OR IF ELSE WHILE DO
+%token AND OR IF ELSE WHILE DO THEN
 
 %type <real> Exp
 %type <real> Calc
@@ -51,6 +51,8 @@ Stmt:       IF PAA Condicion PAC LLAVE_ABRE StmtList LLAVE_CIERRE %prec THEN
             {
                 if($3) {
                     printf("Condicion verdadera - ejecutando bloque if\n");
+                } else {
+                    printf("Condicion falsa - no se ejecuta el bloque if\n");
                 }
             }
             | IF PAA Condicion PAC LLAVE_ABRE StmtList LLAVE_CIERRE ELSE LLAVE_ABRE StmtList LLAVE_CIERRE
@@ -82,6 +84,8 @@ Stmt:       IF PAA Condicion PAC LLAVE_ABRE StmtList LLAVE_CIERRE %prec THEN
 
 StmtList:   StmtList Calc
             | Calc
+            | StmtList Stmt
+            | Stmt
             | /* vacío */
             ;
 
